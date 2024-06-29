@@ -1,5 +1,5 @@
 let intentos = 6;
-let diccionario = ["COLOR", "PLATA", "LENTE", "DECIR", "ATLAS", "COMER", "GIRAR", "CORRE", "MADRE", "PADRE", "GUIAR", "PLATO", "MIEDO", "POBRE", "MILES", "TETRA", "GOLPE"];
+let diccionario = ["COLOR", "PLATA", "LENTE", "DECIR", "ATLAS", "COMER", "GIRAR", "CORRE", "MADRE", "PADRE", "GUIAR", "PLATO", "MIEDO", "POBRE", "MILES", "TETRA", "GOLPE", "MONSE", "CINCO", "NUEVE", "GARRA"];
 let palabra = diccionario[Math.floor(Math.random() * diccionario.length)];
 
 const button = document.getElementById("guess-button");
@@ -9,6 +9,7 @@ function intentar() {
     const INTENTO = leerIntento();
     if (INTENTO === palabra) {
         terminar("<h1>GANASTE!😀</h1");
+        mostrarBotonReiniciar();
         return;
     }
 
@@ -39,8 +40,10 @@ function intentar() {
     GRID.appendChild(ROW);
     intentos--;
     if(intentos === 0) {
-        terminar("<h1>PERDISTE!😖</h1>");
+        terminar("<h1>PERDISTE!😖</h1></h1>");
+        mostrarBotonReiniciar();
     }
+
 }
 
 const input = document.getElementById("guess-input");
@@ -60,4 +63,25 @@ function terminar(mensaje) {
     BOTON.disabled = true; 
     let contenedor = document.getElementById("guesses");
     contenedor.innerHTML = mensaje;
+}
+
+function mostrarBotonReiniciar() {
+    const REINICIAR = document.createElement("button");
+    REINICIAR.className = "bot-reiniciar";
+    REINICIAR.innerHTML = "Jugar de Nuevo";
+    REINICIAR.onclick = reiniciarJuego;
+    document.body.appendChild(REINICIAR)
+}
+
+function reiniciarJuego() {
+    intentos = 6;
+    palabra = diccionario[Math.floor(Math.random() * diccionario.length)];
+    document.getElementById("grid").innerHTML = "";
+    document.getElementById("guesses").innerHTML = "";
+    document.getElementById("guess-input").value = "";
+    document.getElementById("guess-input").disabled = false;
+    document.getElementById("guess-button").disabled = false;
+
+    const BOTON = document.querySelector(".bot-reiniciar");
+    if (BOTON) BOTON.remove();
 }
